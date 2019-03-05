@@ -69,16 +69,9 @@ router.put('/:id',
     passport.authenticate('jwt',
     {session: false}),
     (req, res) => {
-    Item.findById(req.body.id)
+    Item.findOneAndUpdate({_id: req.params.id}, req.body, {new: true})
         .then((item) => {
-            item.update({_id: item._id},
-                req.body, {upsert: false},
-                function(err, raw) {
-                    if (err) {
-                        res.json(err);
-                    }
-                    res.json(raw);
-                });
+            res.json(item);
         })
         .catch(err => res.status(404).json({success: false}));
 });

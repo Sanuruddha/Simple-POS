@@ -49,24 +49,6 @@ router.get('/',
         });
 });
 
-router.put('/:id',
-    passport.authenticate('jwt',
-    {session: false}),
-    (req, res) => {
-    User.findById(req.body.id)
-        .then((user) => {
-            user.update({_id: user._id},
-                req.body, {upsert: false},
-                function(err, raw) {
-                    if (err) {
-                        res.json(err);
-                    }
-                    res.json(raw);
-                });
-        })
-        .catch(err => res.status(404).json({success: false}));
-});
-
 router.delete('/:id',
     passport.authenticate('jwt',
     {session: false}),
@@ -74,7 +56,7 @@ router.delete('/:id',
     User.findById(req.params.id)
         .then((user) => {
             user.remove()
-                    .then(() => {res.json({success: true})})
+                    .then(() => {res.status(200).json({success: true})})
                     .catch(err => console.log(err));
             }
         )
