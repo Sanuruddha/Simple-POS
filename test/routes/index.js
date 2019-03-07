@@ -1,0 +1,1 @@
+const apiTests = require('./api/index');

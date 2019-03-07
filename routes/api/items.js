@@ -54,7 +54,6 @@ router.delete('/:id',
     passport.authenticate('jwt',
         {session: false}),
     (req, res) => {
-    console.log(req.params.id);
     Item.findById(req.params.id)
         .then((item) => {
                 item.remove()
