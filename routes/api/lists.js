@@ -7,15 +7,16 @@ const mongoose = require('mongoose');
 
 //desc Get All Lists of User
 
-router.get('/',
+router.get('/:id',
     passport.authenticate('jwt',
         {session: false}),
     (req, res) => {
-    List.find({user: req.user.id}).then(
+    console.log('authenticated');
+    List.find({user: req.params.id}).then(
         lists => {
             res.json(lists)
         }
-    );
+    ).catch(err => console.log(err));
 });
 
 //desc Get All Lists of all users

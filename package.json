@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "mocha": "nyc mocha 'test' --exit"
+    "mocha": "nyc mocha --require ./helpers/mongo-unit.helper.js 'test' --exit"
   },
   "author": "",
   "license": "ISC",
@@ -22,10 +22,13 @@
     "mongoose": "^5.4.12",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "process": "^0.11.10",
     "validator": "^10.11.0"
   },
   "devDependencies": {
     "mocha": "^6.0.2",
+    "mocha-prepare": "^0.1.0",
+    "mongo-unit": "^1.4.4",
     "nodemon": "^1.18.10",
     "nyc": "^13.3.0",
     "supertest": "^3.4.2"

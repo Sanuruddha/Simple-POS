@@ -6,14 +6,14 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 
-router.post('/register',
+router.post('/',
     (req, res) => {
     User.findOne({username: req.body.username})
         .then(
             user => {
                 if (user) {
                     return res.status(400).json({
-                        error: 'Username already exists'
+                        errors: ['Username already exists']
                     });
                 } else {
                     const user = {};
@@ -21,21 +21,22 @@ router.post('/register',
                     if (req.body.password) user.password = req.body.password;
                     const newUser = new User(user);
                     bcryptjs.genSalt(10, (err, salt) => {
+                        if (err) res.status(500).json({errors: ['Internal server error']});
                         bcryptjs.hash(newUser.password , salt, (err, hash) => {
-                            if (err) throw err;
+                            if (err) res.status(500).json({errors: ['Internal server error']});
                             newUser.password = hash;
                             newUser.save()
                                 .then(
                                     user => {
                                         res.json(user);
                                     }
-                                );
+                                ).catch(err => res.status(500).json({errors: ['Internal server error']}));
                         })
                     })
                 }
             }
         )
-        .catch();
+        .catch(err => res.status(500).json({errors: ['Internal server error']}));
 
 });
 
@@ -46,7 +47,7 @@ router.get('/',
     User.find()
         .then(users => {
             res.json(users)
-        });
+        }).then(err => res.status(500).json({errors: ['Internal server error']}));
 });
 
 router.delete('/:id',
@@ -55,8 +56,12 @@ router.delete('/:id',
     (req, res) => {
     User.findById(req.params.id)
         .then((user) => {
+            if (!user) res.status(400).json({
+                errors: ['Username does not exist']
+            });
+            const userData = user;
             user.remove()
-                    .then(() => {res.status(200).json({success: true})})
+                    .then(() => {res.status(200).json(userData)})
                     .catch(err => console.log(err));
             }
         )
