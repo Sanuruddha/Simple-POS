@@ -11,17 +11,17 @@ const Item = require('../../models/Item');
 router.get('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.find((err, items) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        res.json(items);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        return res.json(items);
     });
 });
 
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findById(req.params.id, (err, item) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!item) res.status(400).json({errors: ['Item does not exist']});
-        if (item) res.json(item);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!item) return res.status(400).json({errors: ['Item does not exist']});
+        if (item) return res.json(item);
     });
 });
 
@@ -37,7 +37,7 @@ router.post('/',
         price: req.body.price
     });
     newItem.save((err, item) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         res.json(item);
     });
 });
@@ -45,12 +45,12 @@ router.post('/',
 router.delete('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findById(req.params.id, (err, item) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!item) res.status(400).json({errors: ['Item does not exist']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!item) return res.status(400).json({errors: ['Item does not exist']});
         const itemToRemove = item;
         item.remove((err, res) => {
-            if (err) res.status(500).json({errors: ['Internal server error']});
-            if (res) res.json(itemToRemove);
+            if (err) return res.status(500).json({errors: ['Internal server error']});
+            if (res) return res.json(itemToRemove);
         });
     });
 });
@@ -58,9 +58,9 @@ router.delete('/:id',
 router.put('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, (err, item) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!item) res.status(400).json({errors: ['Item does not exist']});
-        res.json(item);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!item) return res.status(400).json({errors: ['Item does not exist']});
+        return res.json(item);
     });
 });
 module.exports = router;

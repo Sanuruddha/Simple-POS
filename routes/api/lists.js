@@ -11,8 +11,8 @@ const mongoose = require('mongoose');
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.find({user: req.params.id}, (err, lists) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        res.json(lists);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        return res.json(lists);
     });
 });
 
@@ -21,8 +21,8 @@ router.get('/:id',
 router.get('/all',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.find((err, lists) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        res.json(lists);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        return res.json(lists);
     });
 });
 
@@ -31,8 +31,8 @@ router.get('/all',
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findById(req.params.id, (err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!list) res.status(400).json({errors: ['List does not exist']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!list) return res.status(400).json({errors: ['List does not exist']});
         res.json(list)
     });
 });
@@ -48,7 +48,7 @@ router.post('/',
     if (req.body.items) list.items = req.body.items;
     const newList = new List(list);
     newList.save((err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         res.json(list);
     });
 });
@@ -58,7 +58,7 @@ router.post('/',
 router.delete('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findOneAndDelete({_id: req.params.id, user: req.user.id}, (err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         res.json(list);
 
     });
@@ -70,24 +70,24 @@ router.delete('/:id',
 router.put('/:id/:itemId',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findOne({ _id: req.params.id, user: req.user.id}, (err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!list) res.status(400).json({errors: ['List does not exist']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!list) return res.status(400).json({errors: ['List does not exist']});
         Item.findOne({_id: req.params.itemId}, (err, item) => {
-            if (err) res.status(500).json({errors: ['Internal server error']});
-            if (!item) res.status(400).json({errors: ['Item does not exist']});
+            if (err) return res.status(500).json({errors: ['Internal server error']});
+            if (!item) return res.status(400).json({errors: ['Item does not exist']});
             const index = list.items.map(item=> item.id.toString()).indexOf(req.params.itemId);
             if (index > -1) {
                 list.items[index].count ++;
                 list.save((err, list) => {
-                    if (err) res.status(500).json({errors: ['Internal server error']});
-                    res.json(list.items);
+                    if (err) return res.status(500).json({errors: ['Internal server error']});
+                    return res.json(list.items);
                 });
             } else {
                 const item = { id: req.params.itemId, count: 1};
                 list.items.push(item);
                 list.save((err, list) => {
-                    if (err) res.status(500).json({errors: ['Internal server error']});
-                    res.json(list.items);
+                    if (err) return res.status(500).json({errors: ['Internal server error']});
+                    return res.json(list.items);
                 });
             }
         });
@@ -100,18 +100,18 @@ router.put('/:id/:itemId',
 router.delete('/:id/:itemId',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findById(req.params.id, (err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        if (!list) res.status(400).json({error: 'List not found'});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (!list) return res.status(400).json({error: 'List not found'});
         const index = list.items.map(item => item.id.toString()).indexOf(req.params.itemId);
         if (index > -1) {
             list.items[index].count --;
             if (list.items[index].count === 0) list.items.splice(index, 1);
         } else {
-            res.status(400).json({error: 'Item not in list'});
+            return res.status(400).json({error: 'Item not in list'});
         }
         list.save((err, list) => {
-            if (err) res.status(500).json({errors: ['Internal server error']});
-            res.json(list.items);
+            if (err) return res.status(500).json({errors: ['Internal server error']});
+            return res.json(list.items);
         });
     });
 });
@@ -121,8 +121,8 @@ router.delete('/:id/:itemId',
 router.put('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findByIdAndUpdate(req.body._id, req.body, { new: true }, (err, list) => {
-        if (err) res.status(500).json({errors: ['Internal server error']});
-        res.json(list);
+        if (err) return res.status(500).json({errors: ['Internal server error']});
+        return res.json(list);
     });
 });
 
