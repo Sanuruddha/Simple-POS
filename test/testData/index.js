@@ -4,6 +4,6 @@ const lists = require('./lists');
 
 module.exports = {
     "users": users,
-    // "items": items,
-    // "lists": lists
+    "items": items,
+    //"lists": lists
 };

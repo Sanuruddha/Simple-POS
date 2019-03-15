@@ -1,1 +1,1 @@
-const routesTetst = require('./routes/index');
+const routesTests = require('./routes/index');
