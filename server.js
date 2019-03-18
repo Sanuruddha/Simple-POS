@@ -18,7 +18,9 @@ const dbURI = process.env.MONGO_URI || require('./config/keys').mongoURI;
 mongoose
     .connect(dbURI, { useNewUrlParser: true })
     .then(() => console.log("connected"))
-    .catch(err => console.log(err));
+    .catch(err => {
+        throw err;
+    });
 
 app.use(passport.initialize());
 require('./config/passport')(passport);

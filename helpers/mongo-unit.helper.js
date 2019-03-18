@@ -1,7 +1,6 @@
 const prepare = require('mocha-prepare');
 const mongoUnit = require('mongo-unit');
 const process = require('process');
-// const { MongoMemoryServer } = require('mongodb-memory-server');
 
 prepare(done => mongoUnit.start()
     .then(testMongoUrl => {
