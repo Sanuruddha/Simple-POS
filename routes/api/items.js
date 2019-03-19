@@ -1,8 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-
+const multer  = require('multer');
 const Item = require('../../models/Item');
+
+
+const storage = multer.diskStorage({
+    destination: './public/img',
+    filename: (req, file, cb) => {
+        cb(null, `${new Date()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage });
+
 
 //route GET api/items
 //desc Get All items
@@ -30,11 +41,12 @@ router.get('/:id',
 //access Public
 
 router.post('/',
-    passport.authenticate('jwt', {session: false}), (req, res) => {
+    passport.authenticate('jwt', {session: false}), upload.single('avatar'), (req, res) => {
     const newItem = new Item({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        imgPath: req.file.filename
     });
     newItem.save((err, item) => {
         // if (err) return res.status(500).json({errors: ['Internal server error']});

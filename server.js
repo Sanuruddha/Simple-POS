@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const process = require('process');
-
 const items = require('./routes/api/items');
 const lists = require('./routes/api/lists');
 const users = require('./routes/api/users');
@@ -13,7 +12,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-const dbURI = process.env.MONGO_URI || require('./config/keys').mongoURI;
+const dbURI = process.env.MONGO_URI || require('./config/keys').mongoRemoteURI;
 
 mongoose
     .connect(dbURI, { useNewUrlParser: true })

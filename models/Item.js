@@ -10,6 +10,9 @@ const ItemSchema = new Schema({
     description: {
         type: String
     },
+    imgPath: {
+        type: String
+    },
     price: {
         type: Number
     }
