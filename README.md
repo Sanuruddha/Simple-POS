@@ -1,6 +1,7 @@
 # SIMPLE-POS
 
 Simple-POS is a simple demo project of a Point-of-Sales system
+#### Front-end source code : https://github.com/Sanuruddha/mern-frontend.git
 
 ## Installation(Development)
 
