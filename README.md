@@ -1,6 +1,6 @@
 # SIMPLE-POS
 
-Simple-POS is a Point-of-Sales system that could be used in a restaurant.
+Simple-POS is a simple demo project of a Point-of-Sales system
 
 ## Installation
 
@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-## Usage and Features
+## Usage 
 
 * Reach the system using a web browser
 * Directs to the login screen if not already logged in
