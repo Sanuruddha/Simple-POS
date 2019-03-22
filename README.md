@@ -2,12 +2,20 @@
 
 Simple-POS is a simple demo project of a Point-of-Sales system
 
-## Installation
+## Installation(Development)
 
 ```bash
 git clone https://github.com/Sanuruddha/Simple-POS.git
 cd Simple-POS
 npm install
+npm start
+```
+## Installation(Production)
+
+```bash
+git clone https://github.com/Sanuruddha/Simple-POS.git
+cd Simple-POS
+npm install --only=prod
 npm start
 ```
 
