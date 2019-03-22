@@ -8,3 +8,7 @@
 
 # production
 /build
+
+#nyc
+/.nyc_output
+
