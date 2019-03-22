@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const List = require('../../models/List');
 const Item = require('../../models/Item');
-const mongoose = require('mongoose');
 
 
 //desc Get All Lists of User
@@ -11,7 +10,7 @@ const mongoose = require('mongoose');
 router.get('/user/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.find({user: req.params.id}, (err, lists) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         return res.json(lists);
     });
 });
@@ -21,7 +20,7 @@ router.get('/user/:id',
 router.get('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.find((err, lists) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         return res.json(lists);
     });
 });
@@ -31,7 +30,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findById(req.params.id, (err, list) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         if (!list) return res.status(400).json({errors: ['List does not exist']});
         res.json(list)
     });
@@ -51,7 +50,7 @@ router.post('/',
     list.items = req.body.items;
     const newList = new List(list);
     newList.save((err, list) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         res.json(list);
     });
 });
@@ -75,23 +74,23 @@ router.delete('/:id',
 router.put('/:id/:itemId',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     List.findOne({ _id: req.params.id, user: req.user.id}, (err, list) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         if (!list) return res.status(400).json({errors: ['List does not exist']});
         Item.findOne({_id: req.params.itemId}, (err, item) => {
-            // if (err) return res.status(500).json({errors: ['Internal server error']});
+            if (err) return res.status(500).json({errors: ['Internal server error']});
             if (!item) return res.status(400).json({errors: ['Item does not exist']});
             const index = list.items.map(item=> item.id.toString()).indexOf(req.params.itemId);
             if (index > -1) {
                 list.items[index].count ++;
                 list.save((err, list) => {
-                    // if (err) return res.status(500).json({errors: ['Internal server error']});
+                    if (err) return res.status(500).json({errors: ['Internal server error']});
                     return res.json(list.items);
                 });
             } else {
                 const item = { id: req.params.itemId, count: 1};
                 list.items.push(item);
                 list.save((err, list) => {
-                    // if (err) return res.status(500).json({errors: ['Internal server error']});
+                    if (err) return res.status(500).json({errors: ['Internal server error']});
                     return res.json(list.items);
                 });
             }

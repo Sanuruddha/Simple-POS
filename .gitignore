@@ -12,5 +12,7 @@
 #nyc
 /.nyc_output
 
-.idea
+/.idea
+
+/npm-debug.log
 

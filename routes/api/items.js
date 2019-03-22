@@ -22,7 +22,7 @@ const upload = multer({ storage });
 router.get('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.find((err, items) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         return res.json(items);
     });
 });
@@ -30,7 +30,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findById(req.params.id, (err, item) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         if (!item) return res.status(400).json({errors: ['Item does not exist']});
         return res.json(item);
     });
@@ -49,7 +49,7 @@ router.post('/',
         imgPath: req.file.filename
     });
     newItem.save((err, item) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         res.json(item);
     });
 });
@@ -60,7 +60,7 @@ router.delete('/:id',
         if (err) return res.status(500).json({errors: ['Internal server error']});
         if (!item) return res.status(400).json({errors: ['Item does not exist']});
         item.remove((err, response) => {
-            // if (err) return res.status(500).json({errors: ['Internal server error']});
+            if (err) return res.status(500).json({errors: ['Internal server error']});
             return res.json(response);
         });
     });
@@ -69,7 +69,7 @@ router.delete('/:id',
 router.put('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, (err, item) => {
-        // if (err) return res.status(500).json({errors: ['Internal server error']});
+        if (err) return res.status(500).json({errors: ['Internal server error']});
         if (!item) return res.status(400).json({errors: ['Item does not exist']});
         return res.json(item);
     });
