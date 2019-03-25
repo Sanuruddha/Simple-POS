@@ -6,6 +6,7 @@ const process = require('process');
 const items = require('./routes/api/items');
 const lists = require('./routes/api/lists');
 const users = require('./routes/api/users');
+const path = require('path');
 
 const app = express();
 
@@ -21,17 +22,16 @@ mongoose
         throw err;
     });
 
+app.use(express.static('public'));
 app.use(passport.initialize());
 require('./config/passport')(passport);
-
-app.use(express.static('public'));
 
 //routes
 app.use('/api/users', users);
 app.use('/api/items', items);
 app.use('/api/lists', lists);
 
-
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, './public', 'index.html')));
 const port = process.env.port || 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
