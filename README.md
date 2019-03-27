@@ -2,6 +2,7 @@
 
 Simple-POS is a simple demo project of a Point-of-Sales system
 #### Front-end source code : https://github.com/Sanuruddha/mern-frontend.git
+#### Live demo of the app : https://simple-pos-sl.herokuapp.com  (username: sanu, password: 123)
 
 ## Installation(Development)
 
