@@ -17,7 +17,7 @@ const upload = multer({ storage });
 
 //route GET api/items
 //desc Get All items
-//access Public
+//access Private
 
 router.get('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -26,6 +26,10 @@ router.get('/',
         return res.json(items);
     });
 });
+
+//route GET api/items/:id
+//desc Get item by id
+//access Private
 
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -38,7 +42,7 @@ router.get('/:id',
 
 //route POST api/items
 //desc Create one item
-//access Public
+//access Private
 
 router.post('/',
     passport.authenticate('jwt', {session: false}), upload.single('avatar'), (req, res) => {
@@ -54,6 +58,10 @@ router.post('/',
     });
 });
 
+//route DELETE api/items/:id
+//desc Delete one item
+//access Private
+
 router.delete('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
     Item.findById(req.params.id, (err, item) => {
@@ -65,6 +73,10 @@ router.delete('/:id',
         });
     });
 });
+
+//route PUT api/items/:id
+//desc Update one item
+//access Private
 
 router.put('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {

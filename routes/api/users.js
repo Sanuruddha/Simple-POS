@@ -6,6 +6,10 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 
+//route POST api/users
+//desc Create one user
+//access Public
+
 router.post('/', (req, res) => {
     User.findOne({username: req.body.username}, (err, user) => {
         if (err) return res.status(500).json({errors: ['Internal server error']});
@@ -30,6 +34,10 @@ router.post('/', (req, res) => {
     });
 });
 
+//route GET api/users
+//desc Get all users
+//access Private
+
 router.get('/',
     passport.authenticate('jwt', { session: false }), (req, res) => {
     User.find((err, users) => {
@@ -37,6 +45,10 @@ router.get('/',
         return res.json(users);
     });
 });
+
+//route Delete api/users/:id
+//desc Delete one user by id
+//access Private
 
 router.delete('/:id',
     passport.authenticate('jwt',
@@ -50,6 +62,10 @@ router.delete('/:id',
         });
     });
 });
+
+//route POST api/users/authenticate
+//desc Authenticate user by sending back a jwt
+//access Public
 
 router.post('/authenticate',
     (req, res) => {
@@ -70,6 +86,10 @@ router.post('/authenticate',
         });
     });
 });
+
+//route GET api/users/current
+//desc Get current user by auth token
+//access Private
 
 router.get('/current',
     passport.authenticate('jwt', { session: false }), (req, res) => {

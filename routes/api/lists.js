@@ -5,7 +5,9 @@ const List = require('../../models/List');
 const Item = require('../../models/Item');
 
 
-//desc Get All Lists of User
+//route GET api/lists/user/:id
+//desc Get all lists of one user by user id
+//access Private
 
 router.get('/user/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -15,7 +17,9 @@ router.get('/user/:id',
     });
 });
 
-//desc Get All Lists of all users
+//route GET api/lists
+//desc Get all lists
+//access Private
 
 router.get('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -25,7 +29,9 @@ router.get('/',
     });
 });
 
-//desc Get list by list id
+//route GET api/lists
+//desc Get list by id
+//access Private
 
 router.get('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -36,7 +42,9 @@ router.get('/:id',
     });
 });
 
-//desc Create list for user
+//route POST api/lists
+//desc Create one list
+//access Private
 
 router.post('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -55,7 +63,9 @@ router.post('/',
     });
 });
 
-//desc Delete list by id
+//route DELETE api/lists/:id
+//desc Delete one list
+//access Private
 
 router.delete('/:id',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -69,7 +79,9 @@ router.delete('/:id',
 });
 
 
-//desc Add item to list
+//route PUT api/lists/:id/:itemId
+//desc Update list by id, add item to items list
+//access Private
 
 router.put('/:id/:itemId',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -99,7 +111,9 @@ router.put('/:id/:itemId',
 });
 
 
-//desc Delete item from list
+//route DELETE api/lists/:id/:itemId
+//desc Delete one item from list
+//access Private
 
 router.delete('/:id/:itemId',
     passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -120,7 +134,9 @@ router.delete('/:id/:itemId',
     });
 });
 
-//desc update list
+//route PUT api/lists
+//desc Update one list by id
+//access Private
 
 router.put('/',
     passport.authenticate('jwt', {session: false}), (req, res) => {
